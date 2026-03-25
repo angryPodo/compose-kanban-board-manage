@@ -24,10 +24,21 @@ class KanbanTaskTest {
         )
 
         // Then
+        assertThat(task.id).isNotNull()
         assertThat(task.title).isEqualTo(title)
         assertThat(task.description).isEqualTo(description)
         assertThat(task.tags).containsExactlyElementsOf(tags)
         assertThat(task.crewName).isEqualTo(crewName)
+    }
+
+    @Test
+    fun `서로 다른 두 태스크를 생성하면 서로 다른 고유 ID를 가져야 한다`() {
+        // Given & When
+        val task1 = KanbanTask(title = "제목1", crewName = "크루1", status = TaskStatus.TODO)
+        val task2 = KanbanTask(title = "제목2", crewName = "크루2", status = TaskStatus.TODO)
+
+        // Then
+        assertThat(task1.id).isNotEqualTo(task2.id)
     }
 
     @Test
