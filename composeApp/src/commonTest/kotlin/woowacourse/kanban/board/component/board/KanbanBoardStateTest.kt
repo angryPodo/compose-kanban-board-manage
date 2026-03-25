@@ -55,6 +55,47 @@ class KanbanBoardStateTest {
     }
 
     @Test
+    fun `addTask 성공 시 snackbarMessage가 세팅된다`() {
+        // Given
+        val state = KanbanBoardState()
+        val result = TaskFormResult(
+            title = "새로운 태스크",
+            description = null,
+            tags = emptyList(),
+            status = TaskStatus.TODO,
+            assignee = "다이노",
+        )
+
+        // When
+        state.addTask(result)
+
+        // Then
+        assertThat(state.snackbarMessage).isNotNull()
+    }
+
+    @Test
+    fun `clearSnackbar 호출 후 snackbarMessage가 null로 초기화된다`() {
+        // Given
+        val state = KanbanBoardState()
+        state.addTask(
+            TaskFormResult(
+                title = "태스크",
+                description = null,
+                tags = emptyList(),
+                status = TaskStatus.TODO,
+                assignee = "다이노",
+            ),
+        )
+        assertThat(state.snackbarMessage).isNotNull()
+
+        // When
+        state.clearSnackbar()
+
+        // Then
+        assertThat(state.snackbarMessage).isNull()
+    }
+
+    @Test
     fun `addTask를 호출하면 보드에 태스크가 추가되고 다이얼로그가 닫힌다`() {
         // Given
         val state = KanbanBoardState()
