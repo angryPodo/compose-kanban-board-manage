@@ -14,6 +14,8 @@ class KanbanBoardState(initialBoard: KanbanBoard = KanbanBoard()) {
         private set
     var isTaskDialogVisible by mutableStateOf(false)
         private set
+    var snackbarMessage: String? by mutableStateOf(null)
+        private set
 
     fun showTaskDialog() {
         isTaskDialogVisible = true
@@ -23,16 +25,26 @@ class KanbanBoardState(initialBoard: KanbanBoard = KanbanBoard()) {
         isTaskDialogVisible = false
     }
 
-    fun addTask(result: TaskFormResult): Result<Unit> = runCatching {
-        val newTask = KanbanTask(
-            title = result.title,
-            description = result.description,
-            tags = result.tags,
-            status = result.status,
-            crewName = result.assignee,
-        )
-        kanbanBoard = kanbanBoard.addTask(newTask)
-        hideTaskDialog()
+    fun clearSnackbar() {
+        snackbarMessage = null
+    }
+
+    fun addTask(result: TaskFormResult) {
+        runCatching {
+            val newTask = KanbanTask(
+                title = result.title,
+                description = result.description,
+                tags = result.tags,
+                status = result.status,
+                crewName = result.assignee,
+            )
+            kanbanBoard = kanbanBoard.addTask(newTask)
+            hideTaskDialog()
+        }.onSuccess {
+            snackbarMessage = "새로운 태스크가 추가되었습니다."
+        }.onFailure { e ->
+            snackbarMessage = e.message ?: "태스크 추가에 실패했습니다."
+        }
     }
 }
 
