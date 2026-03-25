@@ -17,6 +17,18 @@ import woowacourse.kanban.board.feature.board.component.dialog.model.TaskFormRes
 class KanbanBoardScreenTest {
 
     @Test
+    fun `사이드바와 보드 영역이 함께 렌더링된다`() = runComposeUiTest {
+        // Given & When
+        setContent {
+            KanbanBoardScreen(onShowSnackbar = {})
+        }
+
+        // Then
+        onNodeWithText("프로젝트").assertIsDisplayed()
+        onNodeWithText("완료율: 0% (0/0)").assertIsDisplayed()
+    }
+
+    @Test
     fun `주입된 보드 상태에 따라 태스크 카드와 헤더 통계가 올바르게 화면에 렌더링된다`() = runComposeUiTest {
         // Given
         val tasks = listOf(
