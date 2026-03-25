@@ -7,6 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import woowacourse.kanban.board.domain.KanbanBoard
 import woowacourse.kanban.board.domain.KanbanTask
+import woowacourse.kanban.board.domain.TaskStatus
 import woowacourse.kanban.board.feature.board.component.dialog.model.TaskFormResult
 
 class KanbanBoardState(initialBoard: KanbanBoard = KanbanBoard()) {
@@ -27,6 +28,11 @@ class KanbanBoardState(initialBoard: KanbanBoard = KanbanBoard()) {
 
     fun clearSnackbar() {
         snackbarMessage = null
+    }
+
+    fun moveTask(task: KanbanTask, targetStatus: TaskStatus) {
+        kanbanBoard = kanbanBoard.moveTask(task.id, targetStatus)
+        snackbarMessage = "태스크가 이동되었습니다."
     }
 
     fun addTask(result: TaskFormResult) {

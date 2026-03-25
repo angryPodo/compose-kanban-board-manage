@@ -1,6 +1,7 @@
 package woowacourse.kanban.board.feature.board.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,10 +15,18 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,14 +43,40 @@ import woowacourse.kanban.board.domain.TaskStatus
 import woowacourse.kanban.board.feature.board.component.card.KanbanCard
 
 @Composable
-fun KanbanColumn(status: TaskStatus, tasks: List<KanbanTask>, modifier: Modifier = Modifier) {
+fun KanbanColumn(
+    status: TaskStatus,
+    tasks: List<KanbanTask>,
+    modifier: Modifier = Modifier,
+    getIsDropTarget: () -> Boolean = { false },
+    onBoundsChanged: (Rect) -> Unit = {},
+    onTaskDragStart: (KanbanTask) -> Unit = {},
+    onTaskDragChange: (Offset) -> Unit = {},
+    onTaskDragEnd: () -> Unit = {},
+    onTaskDragCancel: () -> Unit = {},
+) {
     val title = status.displayName
     val (headerBackgroundColor, contentBackgroundColor) = status.colors
+    val isDropTarget by remember { derivedStateOf { getIsDropTarget() } }
+    val lastBounds = remember { mutableStateOf<Rect?>(null) }
 
     Column(
         modifier = modifier
             .width(320.dp)
             .fillMaxHeight()
+            .onGloballyPositioned {
+                val newBounds = it.boundsInWindow()
+                if (newBounds != lastBounds.value) {
+                    lastBounds.value = newBounds
+                    onBoundsChanged(newBounds)
+                }
+            }
+            .then(
+                if (isDropTarget) {
+                    Modifier.border(2.dp, headerBackgroundColor, RoundedCornerShape(10.dp))
+                } else {
+                    Modifier
+                },
+            )
             .clip(RoundedCornerShape(10.dp)),
     ) {
         Row(
@@ -77,12 +112,16 @@ fun KanbanColumn(status: TaskStatus, tasks: List<KanbanTask>, modifier: Modifier
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            items(items = tasks) { item ->
+            items(items = tasks, key = { it.id }) { item ->
                 KanbanCard(
                     title = item.title,
                     crewName = item.crewName,
                     tags = item.tags,
                     description = item.description,
+                    onDragStart = { onTaskDragStart(item) },
+                    onDragChange = onTaskDragChange,
+                    onDragEnd = onTaskDragEnd,
+                    onDragCancel = onTaskDragCancel,
                 )
             }
         }
