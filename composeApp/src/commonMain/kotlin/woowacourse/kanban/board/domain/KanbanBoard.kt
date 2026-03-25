@@ -1,11 +1,18 @@
 package woowacourse.kanban.board.domain
 
+import java.util.UUID
+
 data class KanbanBoard(val tasks: List<KanbanTask> = emptyList()) {
     fun getTasksByStatus(status: TaskStatus): List<KanbanTask> = tasks.filter { it.status == status }
 
     fun getCountByStatus(status: TaskStatus): Int = tasks.count { it.status == status }
 
-    fun addTask(newTask: KanbanTask): KanbanBoard = this.copy(tasks = tasks + newTask)
+    fun moveTask(taskId: UUID, targetStatus: TaskStatus): KanbanBoard {
+        val updatedTasks = tasks.map { task ->
+            if (task.id == taskId) task.copy(status = targetStatus) else task
+        }
+        return copy(tasks = updatedTasks)
+    }
 
     val completionRate: Float
         get() {

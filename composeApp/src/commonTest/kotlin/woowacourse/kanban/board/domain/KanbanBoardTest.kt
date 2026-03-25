@@ -50,18 +50,45 @@ class KanbanBoardTest {
     }
 
     @Test
-    fun `보드에_새로운_태스크를_추가하면_새로운_보드_객체를_반환한다`() {
+    fun `태스크를 다른 컬럼으로 이동하면 해당 태스크의 상태만 변경된 새 보드를 반환한다`() {
         // given
-        val initialTask = createTask(title = "기존 태스크")
-        val board = KanbanBoard(listOf(initialTask))
-        val newTask = createTask(title = "새로운 태스크")
+        val task = createTask(status = TaskStatus.TODO)
+        val board = KanbanBoard(listOf(task))
 
         // when
-        val updatedBoard = board.addTask(newTask)
+        val updatedBoard = board.moveTask(task.id, TaskStatus.DONE)
+
+        // then
+        assertThat(updatedBoard.tasks.first().status).isEqualTo(TaskStatus.DONE)
+        assertThat(updatedBoard.tasks.first().id).isEqualTo(task.id)
+    }
+
+    @Test
+    fun `태스크를 이동해도 원래 보드 객체는 변경되지 않는다`() {
+        // given
+        val task = createTask(status = TaskStatus.TODO)
+        val board = KanbanBoard(listOf(task))
+
+        // when
+        val updatedBoard = board.moveTask(task.id, TaskStatus.DONE)
 
         // then
         assertThat(updatedBoard).isNotSameAs(board)
-        assertThat(updatedBoard.tasks).containsExactly(initialTask, newTask)
+        assertThat(board.tasks.first().status).isEqualTo(TaskStatus.TODO)
+    }
+
+    @Test
+    fun `존재하지 않는 ID로 이동을 시도하면 보드가 변경되지 않는다`() {
+        // given
+        val task = createTask(status = TaskStatus.TODO)
+        val board = KanbanBoard(listOf(task))
+        val nonExistentTask = createTask()
+
+        // when
+        val updatedBoard = board.moveTask(nonExistentTask.id, TaskStatus.DONE)
+
+        // then
+        assertThat(updatedBoard.tasks).isEqualTo(board.tasks)
     }
 
     @Test

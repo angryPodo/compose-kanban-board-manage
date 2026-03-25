@@ -38,7 +38,7 @@ class KanbanBoardState(initialBoard: KanbanBoard = KanbanBoard()) {
                 status = result.status,
                 crewName = result.assignee,
             )
-            kanbanBoard = kanbanBoard.addTask(newTask)
+            kanbanBoard = kanbanBoard.copy(tasks = kanbanBoard.tasks + newTask)
             hideTaskDialog()
         }.onSuccess {
             snackbarMessage = "새로운 태스크가 추가되었습니다."
