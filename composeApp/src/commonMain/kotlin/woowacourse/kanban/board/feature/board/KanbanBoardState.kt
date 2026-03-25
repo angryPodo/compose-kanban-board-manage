@@ -1,6 +1,7 @@
 package woowacourse.kanban.board.feature.board
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -10,6 +11,7 @@ import woowacourse.kanban.board.domain.KanbanTask
 import woowacourse.kanban.board.domain.TaskStatus
 import woowacourse.kanban.board.feature.board.component.dialog.model.TaskFormResult
 
+@Stable
 class KanbanBoardState(initialBoard: KanbanBoard = KanbanBoard()) {
     var kanbanBoard by mutableStateOf(initialBoard)
         private set
