@@ -2,6 +2,7 @@ package woowacourse.kanban.board.component.dialog
 
 import kotlin.test.Test
 import org.assertj.core.api.Assertions.assertThat
+import woowacourse.kanban.board.feature.board.component.dialog.TaskFormState
 
 class TaskFormStateTest {
 

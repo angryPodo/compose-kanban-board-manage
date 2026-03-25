@@ -8,6 +8,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import kotlin.test.Test
+import woowacourse.kanban.board.feature.board.component.dialog.TaskDialog
 
 @OptIn(ExperimentalTestApi::class)
 class TaskDialogTest {

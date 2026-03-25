@@ -2,9 +2,10 @@ package woowacourse.kanban.board.component.board
 
 import kotlin.test.Test
 import org.assertj.core.api.Assertions.assertThat
-import woowacourse.kanban.board.component.dialog.model.TaskFormResult
 import woowacourse.kanban.board.domain.KanbanBoard
 import woowacourse.kanban.board.domain.TaskStatus
+import woowacourse.kanban.board.feature.board.KanbanBoardState
+import woowacourse.kanban.board.feature.board.component.dialog.model.TaskFormResult
 
 class KanbanBoardStateTest {
 

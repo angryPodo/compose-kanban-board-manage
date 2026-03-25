@@ -1,4 +1,4 @@
-package woowacourse.kanban.board.component.dialog
+package woowacourse.kanban.board.feature.board.component.dialog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -8,9 +8,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import woowacourse.kanban.board.component.dialog.component.TaskDialogContent
-import woowacourse.kanban.board.component.dialog.model.TaskFormResult
 import woowacourse.kanban.board.domain.TaskStatus
+import woowacourse.kanban.board.feature.board.component.dialog.component.TaskDialogContent
+import woowacourse.kanban.board.feature.board.component.dialog.model.TaskFormResult
 
 @Composable
 fun TaskDialog(

@@ -1,9 +1,10 @@
-package woowacourse.kanban.board.component.board
+package woowacourse.kanban.board.feature.board
 
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import woowacourse.kanban.board.component.board.component.KanbanBoardContent
-import woowacourse.kanban.board.component.dialog.TaskDialog
+import woowacourse.kanban.board.feature.board.component.KanbanBoardContent
+import woowacourse.kanban.board.feature.board.component.dialog.TaskDialog
 
 @Composable
 fun KanbanBoardScreen(

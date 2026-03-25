@@ -1,4 +1,4 @@
-package woowacourse.kanban.board.component.dialog
+package woowacourse.kanban.board.feature.board.component.dialog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue

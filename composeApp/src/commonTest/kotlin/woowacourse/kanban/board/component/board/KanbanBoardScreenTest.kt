@@ -6,10 +6,12 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
 import kotlin.test.Test
-import woowacourse.kanban.board.component.dialog.model.TaskFormResult
 import woowacourse.kanban.board.domain.KanbanBoard
 import woowacourse.kanban.board.domain.KanbanTask
 import woowacourse.kanban.board.domain.TaskStatus
+import woowacourse.kanban.board.feature.board.KanbanBoardScreen
+import woowacourse.kanban.board.feature.board.KanbanBoardState
+import woowacourse.kanban.board.feature.board.component.dialog.model.TaskFormResult
 
 @OptIn(ExperimentalTestApi::class)
 class KanbanBoardScreenTest {

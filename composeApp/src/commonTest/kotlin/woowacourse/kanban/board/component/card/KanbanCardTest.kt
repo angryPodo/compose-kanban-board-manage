@@ -8,6 +8,7 @@ import kotlin.test.Test
 import woowacourse.kanban.board.domain.KanbanTask
 import woowacourse.kanban.board.domain.Tag
 import woowacourse.kanban.board.domain.TaskStatus
+import woowacourse.kanban.board.feature.board.component.card.KanbanCard
 
 @OptIn(ExperimentalTestApi::class)
 class KanbanCardTest {
