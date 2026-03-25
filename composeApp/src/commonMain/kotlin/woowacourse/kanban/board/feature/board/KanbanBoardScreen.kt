@@ -23,6 +23,7 @@ fun KanbanBoardScreen(
         modifier = modifier,
         kanbanBoard = boardState.kanbanBoard,
         onTaskCreateClick = boardState::showTaskDialog,
+        onMoveTask = boardState::moveTask,
     )
 
     if (boardState.isTaskDialogVisible) {
