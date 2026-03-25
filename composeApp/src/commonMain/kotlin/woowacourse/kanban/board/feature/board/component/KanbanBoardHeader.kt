@@ -58,7 +58,7 @@ fun KanbanBoardHeader(board: KanbanBoard, onClick: () -> Unit, modifier: Modifie
                 verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 Text(
-                    text = "Compose Desktop 칸반 보드",
+                    text = "Compose1",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Medium,
                 )
