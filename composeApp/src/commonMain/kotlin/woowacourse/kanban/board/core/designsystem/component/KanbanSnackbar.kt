@@ -1,4 +1,4 @@
-package woowacourse.kanban.board.component.common
+package woowacourse.kanban.board.core.designsystem.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

@@ -1,4 +1,4 @@
-package woowacourse.kanban.board.component.dialog.model
+package woowacourse.kanban.board.feature.board.component.dialog.model
 
 import woowacourse.kanban.board.domain.Tag
 import woowacourse.kanban.board.domain.TaskStatus

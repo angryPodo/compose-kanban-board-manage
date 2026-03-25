@@ -12,8 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.launch
-import woowacourse.kanban.board.component.board.KanbanBoardScreen
-import woowacourse.kanban.board.component.common.KanbanSnackbar
+import woowacourse.kanban.board.core.designsystem.component.KanbanSnackbar
+import woowacourse.kanban.board.feature.board.KanbanBoardScreen
 
 @Composable
 @Preview

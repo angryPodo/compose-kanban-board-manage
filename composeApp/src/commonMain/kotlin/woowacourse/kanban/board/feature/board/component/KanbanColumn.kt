@@ -1,4 +1,4 @@
-package woowacourse.kanban.board.component.board.component
+package woowacourse.kanban.board.feature.board.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,15 +23,15 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.KanbanDeepGreen
-import woowacourse.kanban.board.KanbanLightBlue
-import woowacourse.kanban.board.KanbanLightGreen
-import woowacourse.kanban.board.KanbanLightYellow
-import woowacourse.kanban.board.KanbanOrange
-import woowacourse.kanban.board.component.card.KanbanCard
+import woowacourse.kanban.board.core.designsystem.theme.KanbanDeepGreen
+import woowacourse.kanban.board.core.designsystem.theme.KanbanLightBlue
+import woowacourse.kanban.board.core.designsystem.theme.KanbanLightGreen
+import woowacourse.kanban.board.core.designsystem.theme.KanbanLightYellow
+import woowacourse.kanban.board.core.designsystem.theme.KanbanOrange
 import woowacourse.kanban.board.domain.KanbanTask
 import woowacourse.kanban.board.domain.Tag
 import woowacourse.kanban.board.domain.TaskStatus
+import woowacourse.kanban.board.feature.board.component.card.KanbanCard
 
 @Composable
 fun KanbanColumn(status: TaskStatus, tasks: List<KanbanTask>, modifier: Modifier = Modifier) {
