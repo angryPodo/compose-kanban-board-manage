@@ -24,9 +24,7 @@ import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.core.designsystem.theme.KanbanLightBlue
 
 @Composable
-fun KanbanBoardSidebar(
-    modifier: Modifier = Modifier,
-) {
+fun KanbanBoardSidebar(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .background(Color.White)
@@ -75,12 +73,7 @@ fun KanbanBoardSidebar(
 }
 
 @Composable
-private fun SideOptionSelectButton(
-    text: String,
-    isSelected: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
+private fun SideOptionSelectButton(text: String, isSelected: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val backgroundColor = if (isSelected) Color.KanbanLightBlue else Color.White
     val textColor = if (isSelected) Color.Blue else Color.Black
 
