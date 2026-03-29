@@ -3,6 +3,7 @@ package woowacourse.kanban.board.component.board
 import kotlin.test.Test
 import org.assertj.core.api.Assertions.assertThat
 import woowacourse.kanban.board.domain.KanbanBoard
+import woowacourse.kanban.board.domain.KanbanTask
 import woowacourse.kanban.board.domain.TaskStatus
 import woowacourse.kanban.board.feature.board.KanbanBoardEvent
 import woowacourse.kanban.board.feature.board.KanbanBoardState
@@ -94,6 +95,32 @@ class KanbanBoardStateTest {
 
         // Then
         assertThat(state.snackbarEvent).isNull()
+    }
+
+    @Test
+    fun `moveTask를 호출하면 해당 태스크의 상태가 변경된다`() {
+        // Given
+        val task = KanbanTask(title = "태스크", status = TaskStatus.TODO, crewName = "다이노")
+        val state = KanbanBoardState(KanbanBoard(listOf(task)))
+
+        // When
+        state.moveTask(task, TaskStatus.DONE)
+
+        // Then
+        assertThat(state.kanbanBoard.tasks.first().status).isEqualTo(TaskStatus.DONE)
+    }
+
+    @Test
+    fun `moveTask를 호출하면 snackbarEvent가 TaskMoved로 세팅된다`() {
+        // Given
+        val task = KanbanTask(title = "태스크", status = TaskStatus.TODO, crewName = "다이노")
+        val state = KanbanBoardState(KanbanBoard(listOf(task)))
+
+        // When
+        state.moveTask(task, TaskStatus.DONE)
+
+        // Then
+        assertThat(state.snackbarEvent).isEqualTo(KanbanBoardEvent.TaskMoved)
     }
 
     @Test
