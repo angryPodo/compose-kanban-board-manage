@@ -119,6 +119,19 @@ class KanbanBoardTest {
     }
 
     @Test
+    fun `동일한 상태로 이동을 시도하면 보드가 변경되지 않는다`() {
+        // given
+        val task = createTask(status = TaskStatus.TODO)
+        val board = KanbanBoard(listOf(task))
+
+        // when
+        val updatedBoard = board.moveTask(task.id, TaskStatus.TODO)
+
+        // then
+        assertThat(updatedBoard.tasks).isEqualTo(board.tasks)
+    }
+
+    @Test
     fun `상태별_태스크_개수를_정확히_반환한다`() {
         // given
         val todoTask1 = createTask(status = TaskStatus.TODO)

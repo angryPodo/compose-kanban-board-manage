@@ -11,7 +11,9 @@ data class KanbanBoard(val tasks: List<KanbanTask> = emptyList()) {
 
     fun moveTask(taskId: UUID, targetStatus: TaskStatus): KanbanBoard {
         val updatedTasks = tasks.map { task ->
-            if (task.id == taskId) task.copy(status = targetStatus) else task
+            if (task.id != taskId) return@map task
+            if (!task.status.isTransitionableTo(targetStatus)) return@map task
+            task.copy(status = targetStatus)
         }
         return copy(tasks = updatedTasks)
     }
