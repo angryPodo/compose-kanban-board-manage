@@ -17,7 +17,7 @@ class KanbanBoardState(initialBoard: KanbanBoard = KanbanBoard()) {
         private set
     var isTaskDialogVisible by mutableStateOf(false)
         private set
-    var snackbarMessage: String? by mutableStateOf(null)
+    var snackbarEvent: KanbanBoardEvent? by mutableStateOf(null)
         private set
 
     fun showTaskDialog() {
@@ -29,12 +29,12 @@ class KanbanBoardState(initialBoard: KanbanBoard = KanbanBoard()) {
     }
 
     fun clearSnackbar() {
-        snackbarMessage = null
+        snackbarEvent = null
     }
 
     fun moveTask(task: KanbanTask, targetStatus: TaskStatus) {
         kanbanBoard = kanbanBoard.moveTask(task.id, targetStatus)
-        snackbarMessage = "태스크가 이동되었습니다."
+        snackbarEvent = KanbanBoardEvent.TaskMoved
     }
 
     fun addTask(result: TaskFormResult) {
@@ -49,9 +49,9 @@ class KanbanBoardState(initialBoard: KanbanBoard = KanbanBoard()) {
             kanbanBoard = kanbanBoard.addTask(newTask)
             hideTaskDialog()
         }.onSuccess {
-            snackbarMessage = "새로운 태스크가 추가되었습니다."
-        }.onFailure { e ->
-            snackbarMessage = e.message ?: "태스크 추가에 실패했습니다."
+            snackbarEvent = KanbanBoardEvent.TaskAdded
+        }.onFailure {
+            snackbarEvent = KanbanBoardEvent.TaskAddFailed
         }
     }
 }

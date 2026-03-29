@@ -15,9 +15,15 @@ fun KanbanBoardScreen(
     modifier: Modifier = Modifier,
     boardState: KanbanBoardState = rememberKanbanBoardState(),
 ) {
-    LaunchedEffect(boardState.snackbarMessage) {
-        boardState.snackbarMessage?.let { message ->
-            onShowSnackbar(message)
+    LaunchedEffect(boardState.snackbarEvent) {
+        val message = when (boardState.snackbarEvent) {
+            KanbanBoardEvent.TaskMoved -> "태스크가 이동되었습니다."
+            KanbanBoardEvent.TaskAdded -> "새로운 태스크가 추가되었습니다."
+            KanbanBoardEvent.TaskAddFailed -> "태스크 추가에 실패했습니다."
+            null -> null
+        }
+        message?.let {
+            onShowSnackbar(it)
             boardState.clearSnackbar()
         }
     }

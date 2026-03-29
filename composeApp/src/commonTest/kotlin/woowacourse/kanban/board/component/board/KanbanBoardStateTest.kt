@@ -4,6 +4,7 @@ import kotlin.test.Test
 import org.assertj.core.api.Assertions.assertThat
 import woowacourse.kanban.board.domain.KanbanBoard
 import woowacourse.kanban.board.domain.TaskStatus
+import woowacourse.kanban.board.feature.board.KanbanBoardEvent
 import woowacourse.kanban.board.feature.board.KanbanBoardState
 import woowacourse.kanban.board.feature.board.component.dialog.model.TaskFormResult
 
@@ -55,7 +56,7 @@ class KanbanBoardStateTest {
     }
 
     @Test
-    fun `addTask 성공 시 snackbarMessage가 세팅된다`() {
+    fun `addTask 성공 시 snackbarEvent가 TaskAdded로 세팅된다`() {
         // Given
         val state = KanbanBoardState()
         val result = TaskFormResult(
@@ -70,11 +71,11 @@ class KanbanBoardStateTest {
         state.addTask(result)
 
         // Then
-        assertThat(state.snackbarMessage).isNotNull()
+        assertThat(state.snackbarEvent).isEqualTo(KanbanBoardEvent.TaskAdded)
     }
 
     @Test
-    fun `clearSnackbar 호출 후 snackbarMessage가 null로 초기화된다`() {
+    fun `clearSnackbar 호출 후 snackbarEvent가 null로 초기화된다`() {
         // Given
         val state = KanbanBoardState()
         state.addTask(
@@ -86,13 +87,13 @@ class KanbanBoardStateTest {
                 assignee = "다이노",
             ),
         )
-        assertThat(state.snackbarMessage).isNotNull()
+        assertThat(state.snackbarEvent).isNotNull()
 
         // When
         state.clearSnackbar()
 
         // Then
-        assertThat(state.snackbarMessage).isNull()
+        assertThat(state.snackbarEvent).isNull()
     }
 
     @Test
