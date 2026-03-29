@@ -7,6 +7,8 @@ data class KanbanBoard(val tasks: List<KanbanTask> = emptyList()) {
 
     fun getCountByStatus(status: TaskStatus): Int = tasks.count { it.status == status }
 
+    fun addTask(task: KanbanTask): KanbanBoard = copy(tasks = tasks + task)
+
     fun moveTask(taskId: UUID, targetStatus: TaskStatus): KanbanBoard {
         val updatedTasks = tasks.map { task ->
             if (task.id == taskId) task.copy(status = targetStatus) else task

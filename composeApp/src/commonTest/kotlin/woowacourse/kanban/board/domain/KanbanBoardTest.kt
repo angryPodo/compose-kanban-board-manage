@@ -50,6 +50,33 @@ class KanbanBoardTest {
     }
 
     @Test
+    fun `태스크를 추가하면 해당 태스크가 포함된 새 보드를 반환한다`() {
+        // given
+        val board = KanbanBoard()
+        val task = createTask(status = TaskStatus.TODO)
+
+        // when
+        val updatedBoard = board.addTask(task)
+
+        // then
+        assertThat(updatedBoard.tasks).containsExactly(task)
+    }
+
+    @Test
+    fun `태스크를 추가해도 원래 보드 객체는 변경되지 않는다`() {
+        // given
+        val board = KanbanBoard()
+        val task = createTask(status = TaskStatus.TODO)
+
+        // when
+        val updatedBoard = board.addTask(task)
+
+        // then
+        assertThat(updatedBoard).isNotSameAs(board)
+        assertThat(board.tasks).isEmpty()
+    }
+
+    @Test
     fun `태스크를 다른 컬럼으로 이동하면 해당 태스크의 상태만 변경된 새 보드를 반환한다`() {
         // given
         val task = createTask(status = TaskStatus.TODO)
