@@ -43,7 +43,7 @@ fun KanbanBoardScreen(
 
     if (boardState.isTaskDialogVisible) {
         TaskDialog(
-            onCreateClick = boardState::addTask,
+            onConfirmClick = boardState::addTask,
             onDismissClick = boardState::hideTaskDialog,
         )
     }
