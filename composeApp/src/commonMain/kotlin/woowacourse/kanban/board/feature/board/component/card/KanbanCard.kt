@@ -39,7 +39,7 @@ import woowacourse.kanban.board.domain.TaskStatus
 @Composable
 fun KanbanCard(
     title: String,
-    crewName: String,
+    crewName: String?,
     modifier: Modifier = Modifier,
     tags: List<Tag> = emptyList(),
     description: String? = null,
@@ -97,12 +97,12 @@ fun KanbanCard(
 
         if (crewImage != null) {
             KanbanCardProfile(
-                crewName = crewName,
+                crewName = crewName ?: "없음",
                 crewImage = crewImage,
             )
         } else {
             KanbanCardProfile(
-                crewName = crewName,
+                crewName = crewName ?: "없음",
             )
         }
     }

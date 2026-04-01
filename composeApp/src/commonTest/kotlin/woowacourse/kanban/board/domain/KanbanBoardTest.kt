@@ -145,7 +145,63 @@ class KanbanBoardTest {
         assertThat(board.getCountByStatus(TaskStatus.DONE)).isEqualTo(0)
     }
 
-    private fun createTask(title: String = "테스트 제목", status: TaskStatus = TaskStatus.TODO, crewName: String = "테스트 크루"): KanbanTask {
+    @Test
+    fun `태스크를 삭제하면 해당 태스크가 제거된 새 보드를 반환한다`() {
+        // given
+        val task = createTask(status = TaskStatus.TODO)
+        val board = KanbanBoard(listOf(task))
+
+        // when
+        val updatedBoard = board.deleteTask(task.id)
+
+        // then
+        assertThat(updatedBoard.tasks).isEmpty()
+    }
+
+    @Test
+    fun `태스크를 삭제해도 원래 보드 객체는 변경되지 않는다`() {
+        // given
+        val task = createTask(status = TaskStatus.TODO)
+        val board = KanbanBoard(listOf(task))
+
+        // when
+        val updatedBoard = board.deleteTask(task.id)
+
+        // then
+        assertThat(updatedBoard).isNotSameAs(board)
+        assertThat(board.tasks).hasSize(1)
+    }
+
+    @Test
+    fun `태스크를 수정하면 해당 태스크가 교체된 새 보드를 반환한다`() {
+        // given
+        val task = createTask(title = "기존 제목", status = TaskStatus.TODO)
+        val board = KanbanBoard(listOf(task))
+        val updatedTask = task.copy(title = "수정된 제목")
+
+        // when
+        val updatedBoard = board.updateTask(updatedTask)
+
+        // then
+        assertThat(updatedBoard.tasks.first().title).isEqualTo("수정된 제목")
+        assertThat(updatedBoard.tasks.first().id).isEqualTo(task.id)
+    }
+
+    @Test
+    fun `태스크를 수정해도 원래 보드 객체는 변경되지 않는다`() {
+        // given
+        val task = createTask(title = "기존 제목", status = TaskStatus.TODO)
+        val board = KanbanBoard(listOf(task))
+
+        // when
+        val updatedBoard = board.updateTask(task.copy(title = "수정된 제목"))
+
+        // then
+        assertThat(updatedBoard).isNotSameAs(board)
+        assertThat(board.tasks.first().title).isEqualTo("기존 제목")
+    }
+
+    private fun createTask(title: String = "테스트 제목", status: TaskStatus = TaskStatus.TODO, crewName: String? = "테스트 크루"): KanbanTask {
         return KanbanTask(
             title = title,
             status = status,
