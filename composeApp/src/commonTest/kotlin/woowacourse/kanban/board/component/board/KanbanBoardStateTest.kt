@@ -104,10 +104,10 @@ class KanbanBoardStateTest {
         val state = KanbanBoardState(KanbanBoard(listOf(task)))
 
         // When
-        state.moveTask(task, TaskStatus.DONE)
+        state.moveTask(task, TaskStatus.IN_PROGRESS)
 
         // Then
-        assertThat(state.kanbanBoard.tasks.first().status).isEqualTo(TaskStatus.DONE)
+        assertThat(state.kanbanBoard.tasks.first().status).isEqualTo(TaskStatus.IN_PROGRESS)
     }
 
     @Test
@@ -117,7 +117,7 @@ class KanbanBoardStateTest {
         val state = KanbanBoardState(KanbanBoard(listOf(task)))
 
         // When
-        state.moveTask(task, TaskStatus.DONE)
+        state.moveTask(task, TaskStatus.IN_PROGRESS)
 
         // Then
         assertThat(state.snackbarEvent).isEqualTo(KanbanBoardEvent.TaskMoved)

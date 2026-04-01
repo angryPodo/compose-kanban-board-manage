@@ -136,6 +136,7 @@ fun TaskDialogContent(
                     val statusText = when (status) {
                         TaskStatus.TODO -> "To Do"
                         TaskStatus.IN_PROGRESS -> "In Progress"
+                        TaskStatus.REVIEW -> "Review"
                         TaskStatus.DONE -> "Done"
                     }
                     StatusOptionCard(

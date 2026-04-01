@@ -35,8 +35,10 @@ import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.core.designsystem.theme.KanbanDeepGreen
 import woowacourse.kanban.board.core.designsystem.theme.KanbanLightBlue
 import woowacourse.kanban.board.core.designsystem.theme.KanbanLightGreen
+import woowacourse.kanban.board.core.designsystem.theme.KanbanLightViolet
 import woowacourse.kanban.board.core.designsystem.theme.KanbanLightYellow
 import woowacourse.kanban.board.core.designsystem.theme.KanbanOrange
+import woowacourse.kanban.board.core.designsystem.theme.KanbanViolet
 import woowacourse.kanban.board.domain.KanbanTask
 import woowacourse.kanban.board.domain.Tag
 import woowacourse.kanban.board.domain.TaskStatus
@@ -132,6 +134,7 @@ private val TaskStatus.displayName: String
     get() = when (this) {
         TaskStatus.TODO -> "To Do"
         TaskStatus.IN_PROGRESS -> "In Progress"
+        TaskStatus.REVIEW -> "Review"
         TaskStatus.DONE -> "Done"
     }
 
@@ -139,6 +142,7 @@ private val TaskStatus.colors: Pair<Color, Color>
     get() = when (this) {
         TaskStatus.TODO -> Color.Blue to Color.KanbanLightBlue
         TaskStatus.IN_PROGRESS -> Color.KanbanOrange to Color.KanbanLightYellow
+        TaskStatus.REVIEW -> Color.KanbanViolet to Color.KanbanLightViolet
         TaskStatus.DONE -> Color.KanbanDeepGreen to Color.KanbanLightGreen
     }
 

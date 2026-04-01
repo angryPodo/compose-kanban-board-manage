@@ -1,7 +1,7 @@
 package woowacourse.kanban.board.domain
 
-import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
+import org.assertj.core.api.Assertions.assertThat
 
 class KanbanBoardTest {
 
@@ -83,10 +83,10 @@ class KanbanBoardTest {
         val board = KanbanBoard(listOf(task))
 
         // when
-        val updatedBoard = board.moveTask(task.id, TaskStatus.DONE)
+        val updatedBoard = board.moveTask(task.id, TaskStatus.IN_PROGRESS)
 
         // then
-        assertThat(updatedBoard.tasks.first().status).isEqualTo(TaskStatus.DONE)
+        assertThat(updatedBoard.tasks.first().status).isEqualTo(TaskStatus.IN_PROGRESS)
         assertThat(updatedBoard.tasks.first().id).isEqualTo(task.id)
     }
 
@@ -97,7 +97,7 @@ class KanbanBoardTest {
         val board = KanbanBoard(listOf(task))
 
         // when
-        val updatedBoard = board.moveTask(task.id, TaskStatus.DONE)
+        val updatedBoard = board.moveTask(task.id, TaskStatus.IN_PROGRESS)
 
         // then
         assertThat(updatedBoard).isNotSameAs(board)
