@@ -134,14 +134,6 @@ fun KanbanColumn(
     }
 }
 
-private val TaskStatus.displayName: String
-    get() = when (this) {
-        TaskStatus.TODO -> "To Do"
-        TaskStatus.IN_PROGRESS -> "In Progress"
-        TaskStatus.REVIEW -> "Review"
-        TaskStatus.DONE -> "Done"
-    }
-
 private val TaskStatus.colors: Pair<Color, Color>
     get() = when (this) {
         TaskStatus.TODO -> Color.Blue to Color.KanbanLightBlue

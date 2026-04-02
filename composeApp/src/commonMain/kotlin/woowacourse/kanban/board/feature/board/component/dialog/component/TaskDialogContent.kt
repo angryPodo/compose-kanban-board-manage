@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.domain.TaskStatus
+import woowacourse.kanban.board.feature.board.component.displayName
 
 @Composable
 fun TaskDialogContent(
@@ -138,14 +139,8 @@ fun TaskDialogContent(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 statuses.forEach { status ->
-                    val statusText = when (status) {
-                        TaskStatus.TODO -> "To Do"
-                        TaskStatus.IN_PROGRESS -> "In Progress"
-                        TaskStatus.REVIEW -> "Review"
-                        TaskStatus.DONE -> "Done"
-                    }
                     StatusOptionCard(
-                        text = statusText,
+                        text = status.displayName,
                         isSelected = selectedStatus == status,
                         onClick = { onStatusChanged(status) },
                     )

@@ -199,6 +199,34 @@ class KanbanBoardTest {
     }
 
     @Test
+    fun `존재하지 않는 ID로 삭제를 시도하면 보드가 변경되지 않는다`() {
+        // given
+        val task = createTask(status = TaskStatus.TODO)
+        val board = KanbanBoard(listOf(task))
+        val nonExistentTask = createTask()
+
+        // when
+        val updatedBoard = board.deleteTask(nonExistentTask.id)
+
+        // then
+        assertThat(updatedBoard.tasks).isEqualTo(board.tasks)
+    }
+
+    @Test
+    fun `존재하지 않는 ID로 수정을 시도하면 보드가 변경되지 않는다`() {
+        // given
+        val task = createTask(title = "기존 제목", status = TaskStatus.TODO)
+        val board = KanbanBoard(listOf(task))
+        val nonExistentTask = createTask(title = "수정된 제목")
+
+        // when
+        val updatedBoard = board.updateTask(nonExistentTask)
+
+        // then
+        assertThat(updatedBoard.tasks.first().title).isEqualTo("기존 제목")
+    }
+
+    @Test
     fun `태스크를 수정하면 해당 태스크가 교체된 새 보드를 반환한다`() {
         // given
         val task = createTask(title = "기존 제목", status = TaskStatus.TODO)
