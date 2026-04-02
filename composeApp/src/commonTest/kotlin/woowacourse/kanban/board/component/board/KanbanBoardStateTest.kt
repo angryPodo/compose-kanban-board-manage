@@ -214,4 +214,20 @@ class KanbanBoardStateTest {
         assertThat(state.selectedTask).isNull()
         assertThat(events).containsExactly(KanbanBoardEvent.TaskDeleted)
     }
+
+    @Test
+    fun `삭제 불가 상태의 태스크를 삭제하면 TaskDeleteFailed 이벤트가 방출된다`() = runTest(UnconfinedTestDispatcher()) {
+        // Given
+        val task = KanbanTask(title = "태스크", status = TaskStatus.REVIEW, crewName = "다이노")
+        val state = KanbanBoardState(KanbanBoard(listOf(task)))
+        val events = mutableListOf<KanbanBoardEvent>()
+        backgroundScope.launch { state.events.collect { events.add(it) } }
+
+        // When
+        state.deleteTask(task)
+
+        // Then
+        assertThat(events).containsExactly(KanbanBoardEvent.TaskDeleteFailed)
+        assertThat(state.kanbanBoard.tasks).hasSize(1)
+    }
 }

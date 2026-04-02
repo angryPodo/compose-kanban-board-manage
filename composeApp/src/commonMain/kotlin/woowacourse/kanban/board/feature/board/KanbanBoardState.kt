@@ -94,6 +94,10 @@ class KanbanBoardState(initialBoard: KanbanBoard = KanbanBoard()) {
     }
 
     fun deleteTask(task: KanbanTask) {
+        if (!task.status.isDeletable) {
+            _events.tryEmit(KanbanBoardEvent.TaskDeleteFailed)
+            return
+        }
         kanbanBoard = kanbanBoard.deleteTask(task.id)
         hideEditDialog()
         _events.tryEmit(KanbanBoardEvent.TaskDeleted)

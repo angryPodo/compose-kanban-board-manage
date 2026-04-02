@@ -19,6 +19,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,6 +52,7 @@ fun KanbanColumn(
     modifier: Modifier = Modifier,
     getIsDropTarget: () -> Boolean = { false },
     onBoundsChanged: (Rect) -> Unit = {},
+    onTaskClick: (KanbanTask) -> Unit = {},
     onTaskDragStart: (KanbanTask) -> Unit = {},
     onTaskDragChange: (Offset) -> Unit = {},
     onTaskDragEnd: () -> Unit = {},
@@ -115,12 +117,14 @@ fun KanbanColumn(
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             items(items = tasks, key = { it.id }) { item ->
+                val currentItem by rememberUpdatedState(item)
                 KanbanCard(
                     title = item.title,
                     crewName = item.crewName,
                     tags = item.tags,
                     description = item.description,
-                    onDragStart = { onTaskDragStart(item) },
+                    onClick = { onTaskClick(currentItem) },
+                    onDragStart = { onTaskDragStart(currentItem) },
                     onDragChange = onTaskDragChange,
                     onDragEnd = onTaskDragEnd,
                     onDragCancel = onTaskDragCancel,

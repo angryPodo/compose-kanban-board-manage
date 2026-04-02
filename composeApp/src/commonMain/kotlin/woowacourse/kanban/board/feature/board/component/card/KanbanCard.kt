@@ -2,6 +2,7 @@ package woowacourse.kanban.board.feature.board.component.card
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -44,6 +45,7 @@ fun KanbanCard(
     tags: List<Tag> = emptyList(),
     description: String? = null,
     crewImage: DrawableResource? = null,
+    onClick: () -> Unit = {},
     onDragStart: () -> Unit = {},
     onDragChange: (Offset) -> Unit = {},
     onDragEnd: () -> Unit = {},
@@ -55,6 +57,7 @@ fun KanbanCard(
         modifier = modifier
             .width(286.dp)
             .onGloballyPositioned { cardWindowPosition = it.positionInWindow() }
+            .clickable(onClick = onClick)
             .pointerInput(Unit) {
                 detectDragGestures(
                     onDragStart = { onDragStart() },
