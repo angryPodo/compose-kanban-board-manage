@@ -14,12 +14,14 @@ data class KanbanBoard(val tasks: List<KanbanTask> = emptyList()) {
         return copy(tasks = updatedTasks)
     }
 
-    fun deleteTask(taskId: UUID): KanbanBoard = copy(tasks = tasks.filter { it.id != taskId })
+    fun deleteTask(taskId: UUID): KanbanBoard =
+        copy(tasks = tasks.filter { it.id != taskId || !it.status.isDeletable })
 
     fun moveTask(taskId: UUID, targetStatus: TaskStatus): KanbanBoard {
         val updatedTasks = tasks.map { task ->
             if (task.id != taskId) return@map task
             if (!task.status.isTransitionableTo(targetStatus)) return@map task
+            if (targetStatus.isAssigneeRequired && task.crewName == null) return@map task
             task.copy(status = targetStatus)
         }
         return copy(tasks = updatedTasks)

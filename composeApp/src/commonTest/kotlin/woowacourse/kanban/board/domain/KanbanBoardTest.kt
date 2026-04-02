@@ -146,6 +146,32 @@ class KanbanBoardTest {
     }
 
     @Test
+    fun `담당자 없이 담당자 필수 상태로 이동을 시도하면 보드가 변경되지 않는다`() {
+        // given
+        val task = KanbanTask(title = "제목", status = TaskStatus.TODO, crewName = null)
+        val board = KanbanBoard(listOf(task))
+
+        // when
+        val updatedBoard = board.moveTask(task.id, TaskStatus.IN_PROGRESS)
+
+        // then
+        assertThat(updatedBoard.tasks.first().status).isEqualTo(TaskStatus.TODO)
+    }
+
+    @Test
+    fun `삭제 불가 상태의 태스크를 삭제 시도하면 보드가 변경되지 않는다`() {
+        // given
+        val task = KanbanTask(title = "제목", status = TaskStatus.REVIEW, crewName = "다이노")
+        val board = KanbanBoard(listOf(task))
+
+        // when
+        val updatedBoard = board.deleteTask(task.id)
+
+        // then
+        assertThat(updatedBoard.tasks).hasSize(1)
+    }
+
+    @Test
     fun `태스크를 삭제하면 해당 태스크가 제거된 새 보드를 반환한다`() {
         // given
         val task = createTask(status = TaskStatus.TODO)
