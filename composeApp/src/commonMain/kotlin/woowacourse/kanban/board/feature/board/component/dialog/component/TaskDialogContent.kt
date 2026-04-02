@@ -159,11 +159,11 @@ fun TaskDialogContent(
                 TaskOptionCard(
                     isSelected = selectedAssignee == null,
                     onClick = { onAssigneeChanged(null) },
-                    paddingValues = PaddingValues(20.dp)
+                    paddingValues = PaddingValues(20.dp),
                 ) {
                     Text(
                         text = "없음",
-                        fontSize = 14.sp
+                        fontSize = 14.sp,
                     )
                 }
                 assignees.forEach { name ->
@@ -196,7 +196,7 @@ fun TaskDialogContent(
                     text = "삭제",
                     onClick = onDeleteClick,
                     containerColor = Color.Red,
-                    contentColor = Color.White
+                    contentColor = Color.White,
                 )
             }
             Spacer(Modifier.width(12.dp))

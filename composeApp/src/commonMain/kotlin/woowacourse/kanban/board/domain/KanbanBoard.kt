@@ -14,8 +14,7 @@ data class KanbanBoard(val tasks: List<KanbanTask> = emptyList()) {
         return copy(tasks = updatedTasks)
     }
 
-    fun deleteTask(taskId: UUID): KanbanBoard =
-        copy(tasks = tasks.filter { it.id != taskId || !it.status.isDeletable })
+    fun deleteTask(taskId: UUID): KanbanBoard = copy(tasks = tasks.filter { it.id != taskId || !it.status.isDeletable })
 
     fun moveTask(taskId: UUID, targetStatus: TaskStatus): KanbanBoard {
         val updatedTasks = tasks.map { task ->

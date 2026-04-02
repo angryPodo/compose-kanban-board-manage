@@ -21,7 +21,7 @@ fun StatusOptionCard(text: String, isSelected: Boolean, onClick: () -> Unit, mod
     TaskOptionCard(
         isSelected = isSelected,
         onClick = onClick,
-        modifier = modifier.width(147.dp)
+        modifier = modifier.width(147.dp),
     ) {
         Text(
             text = text,
