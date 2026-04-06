@@ -1,6 +1,7 @@
 package woowacourse.kanban.board.feature.board.component.dialog
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -22,10 +23,7 @@ fun TaskDialog(
         TaskDialogMode.Create -> rememberTaskFormState()
         is TaskDialogMode.Edit -> rememberTaskFormState(mode.task)
     }
-    val availableStatuses = when (mode) {
-        TaskDialogMode.Create -> TaskStatus.entries
-        is TaskDialogMode.Edit -> (mode.task.status.validTransitions + mode.task.status).sortedBy { it.ordinal }
-    }
+    val availableStatuses = remember(mode) { mode.availableStatuses }
     val dialogTitle = when (mode) {
         TaskDialogMode.Create -> "새 태스크 생성"
         is TaskDialogMode.Edit -> "기존 태스크 수정"
@@ -87,4 +85,10 @@ fun TaskDialog(
 sealed class TaskDialogMode {
     data object Create : TaskDialogMode()
     data class Edit(val task: KanbanTask) : TaskDialogMode()
+
+    val availableStatuses: List<TaskStatus>
+        get() = when (this) {
+            Create -> TaskStatus.entries
+            is Edit -> (task.status.validTransitions + task.status).sortedBy { it.ordinal }
+        }
 }
