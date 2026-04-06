@@ -52,4 +52,4 @@ class TaskFormState(task: KanbanTask? = null) {
 }
 
 @Composable
-fun rememberTaskFormState(task: KanbanTask? = null): TaskFormState = remember { TaskFormState(task) }
+fun rememberTaskFormState(task: KanbanTask? = null): TaskFormState = remember(task) { TaskFormState(task) }
