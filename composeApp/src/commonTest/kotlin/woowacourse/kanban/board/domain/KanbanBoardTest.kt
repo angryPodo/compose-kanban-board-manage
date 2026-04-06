@@ -1,6 +1,7 @@
 package woowacourse.kanban.board.domain
 
 import kotlin.test.Test
+import kotlin.test.assertFailsWith
 import org.assertj.core.api.Assertions.assertThat
 
 class KanbanBoardTest {
@@ -253,6 +254,43 @@ class KanbanBoardTest {
         // then
         assertThat(updatedBoard).isNotSameAs(board)
         assertThat(board.tasks.first().title).isEqualTo("기존 제목")
+    }
+
+    @Test
+    fun `updateTask로 유효한 전이를 시도하면 상태가 변경된다`() {
+        // given
+        val task = createTask(status = TaskStatus.TODO)
+        val board = KanbanBoard(listOf(task))
+
+        // when
+        val updatedBoard = board.updateTask(task.copy(status = TaskStatus.IN_PROGRESS))
+
+        // then
+        assertThat(updatedBoard.tasks.first().status).isEqualTo(TaskStatus.IN_PROGRESS)
+    }
+
+    @Test
+    fun `updateTask로 유효하지 않은 전이를 시도하면 예외가 발생한다`() {
+        // given
+        val task = createTask(status = TaskStatus.TODO)
+        val board = KanbanBoard(listOf(task))
+
+        // when & then
+        assertFailsWith<IllegalArgumentException> {
+            board.updateTask(task.copy(status = TaskStatus.DONE))
+        }
+    }
+
+    @Test
+    fun `updateTask로 담당자 없이 담당자 필수 상태로 변경하면 예외가 발생한다`() {
+        // given
+        val task = KanbanTask(title = "제목", status = TaskStatus.TODO, crewName = null)
+        val board = KanbanBoard(listOf(task))
+
+        // when & then
+        assertFailsWith<IllegalArgumentException> {
+            board.updateTask(task.copy(status = TaskStatus.IN_PROGRESS))
+        }
     }
 
     private fun createTask(title: String = "테스트 제목", status: TaskStatus = TaskStatus.TODO, crewName: String? = "테스트 크루"): KanbanTask {

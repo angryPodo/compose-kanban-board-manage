@@ -198,6 +198,58 @@ class KanbanBoardStateTest {
     }
 
     @Test
+    fun `editTask에서 유효한 전이로 상태를 변경하면 태스크 상태가 변경되고 TaskEdited 이벤트가 방출된다`() = runTest(UnconfinedTestDispatcher()) {
+        // Given
+        val task = KanbanTask(title = "태스크", status = TaskStatus.TODO, crewName = "다이노")
+        val state = KanbanBoardState(KanbanBoard(listOf(task)))
+        val events = mutableListOf<KanbanBoardEvent>()
+        backgroundScope.launch { state.events.collect { events.add(it) } }
+        state.showEditDialog(task)
+
+        // When
+        state.editTask(
+            task,
+            TaskFormResult(
+                title = "태스크",
+                description = null,
+                tags = emptyList(),
+                status = TaskStatus.IN_PROGRESS,
+                assignee = "다이노",
+            ),
+        )
+
+        // Then
+        assertThat(state.kanbanBoard.tasks.first().status).isEqualTo(TaskStatus.IN_PROGRESS)
+        assertThat(state.selectedTask).isNull()
+        assertThat(events).containsExactly(KanbanBoardEvent.TaskEdited)
+    }
+
+    @Test
+    fun `editTask에서 유효하지 않은 전이를 시도하면 TaskEditFailed 이벤트가 방출된다`() = runTest(UnconfinedTestDispatcher()) {
+        // Given
+        val task = KanbanTask(title = "태스크", status = TaskStatus.TODO, crewName = "다이노")
+        val state = KanbanBoardState(KanbanBoard(listOf(task)))
+        val events = mutableListOf<KanbanBoardEvent>()
+        backgroundScope.launch { state.events.collect { events.add(it) } }
+
+        // When
+        state.editTask(
+            task,
+            TaskFormResult(
+                title = "태스크",
+                description = null,
+                tags = emptyList(),
+                status = TaskStatus.DONE,
+                assignee = "다이노",
+            ),
+        )
+
+        // Then
+        assertThat(events).containsExactly(KanbanBoardEvent.TaskEditFailed)
+        assertThat(state.kanbanBoard.tasks.first().status).isEqualTo(TaskStatus.TODO)
+    }
+
+    @Test
     fun `deleteTask 호출 시 태스크가 삭제되고 TaskDeleted 이벤트가 방출된다`() = runTest(UnconfinedTestDispatcher()) {
         // Given
         val task = KanbanTask(title = "태스크", status = TaskStatus.TODO, crewName = "다이노")
